@@ -1,7 +1,7 @@
 package net.projet.entity;
 
 import java.util.List;
-
+import java.util.UUID;
 public class Exam {
     private Long id;
     private String nom;
@@ -9,11 +9,11 @@ public class Exam {
     private String codeUnque;
     private List<Question> questions;
 
-    public Exam(String nom, User prof, String codeUnque, List<Question> questions) {
+    public Exam(String nom, User prof ) {
         this.nom = nom;
         this.prof = prof;
-        this.codeUnque = codeUnque;
-        this.questions = questions;
+        this.codeUnque =UUID.randomUUID().toString().substring(0,20);;
+
     }
 
     public Long getId() {

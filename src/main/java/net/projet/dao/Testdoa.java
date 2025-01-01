@@ -1,6 +1,6 @@
 package net.projet.dao;
 
-public class Testdoa {
+public class okokTestdoa {
 
     //connect with Database
 
