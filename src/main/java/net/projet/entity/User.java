@@ -10,6 +10,15 @@ public class User {
     private String password;
     private Roles role;
 
+    public User(Long userId, String nom, String prenom, String email, String password, Roles role) {
+        this.userId = userId;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public User(String nom, String prenom, String password, String email, Roles role) {
         this.nom = nom;
         this.prenom = prenom;
@@ -17,6 +26,7 @@ public class User {
         this.email = email;
         this.role = role;
     }
+
 
     public Long getId() {
         return userId;
