@@ -1,17 +1,20 @@
 package net.projet.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
     private Long id;
     private String text;
-    private List<String> options;
+    private ArrayList<String> options;
     private Exam exam;
 
-    public Question(String text, List<String> options, Exam exam) {
+
+    public Question(String text, ArrayList<String> options, Exam exam) {
         this.text = text;
         this.options = options;
         this.exam = exam;
+
     }
 
     public Long getId() {
@@ -34,7 +37,7 @@ public class Question {
         return options;
     }
 
-    public void setOptions(List<String> options) {
+    public void setOptions(ArrayList<String> options) {
         this.options = options;
     }
 
