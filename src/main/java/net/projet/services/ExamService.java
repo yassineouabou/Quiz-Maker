@@ -11,10 +11,12 @@ public class ExamService {
     public ExamService() {
         examdoa = new Examdoa();
     }
-    public boolean createExam(Exam exam) throws SQLException {
-        int examId=examdoa.CreateExam(exam.getNom(),exam.getCodeUnque(),exam.getProf().getId());
-        exam.setId((long) examId);
-        return examId>0;
+    public Long createExam(Exam exam) {
+        return examdoa.CreateExam(exam);
+    }
+
+    public Exam findExamByCodeUnique(String codeUnique){
+        return examdoa.findExamByCodeUnique(codeUnique);
     }
 
 }

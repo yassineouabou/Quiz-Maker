@@ -1,5 +1,7 @@
 package net.projet.ui.etudiant;
 
+import net.projet.entity.User;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,29 +16,29 @@ public class HomePanel extends JPanel {
     private final Color backgroundColor = new Color(245, 247, 251);
     private final Color textColor = new Color(55, 65, 81);
 
-    public HomePanel(){
-        JFrame frame = new JFrame();
-        frame.setSize(800,600);
-        frame.setBackground(backgroundColor);
+    public HomePanel(JPanel cardPanel, User user){
 
-        frame.setLayout(null);
+        this.setSize(800,600);
+        this.setBackground(backgroundColor);
+
+        this.setLayout(null);
 
         title = new JLabel("Bienvenue");
         title.setFont(new Font("Segoe UI",Font.BOLD,25));
         title.setBounds(210,10,200,40);
-        frame.add(title);
+        this.add(title);
 
-        user_name = new JLabel("Yassine Ouabou");
+        user_name = new JLabel(user.getPrenom()+" "+user.getNom());
         user_name.setFont(new Font("SansSerif",Font.BOLD,25));
         user_name.setForeground(primaryDark);
         user_name.setBounds(340,10,400,40);
-        frame.add(user_name);
+        this.add(user_name);
 
         complete_panel =  new JPanel();
         complete_panel.setBounds(40,80,200,70);
         complete_panel.setBackground(Color.white);
         complete_panel.setLayout(null);
-        frame.add(complete_panel);
+        this.add(complete_panel);
 
         complete_text = new JLabel("Examens complétés");
         complete_text.setBounds(15,6,200,20);
@@ -59,7 +61,7 @@ public class HomePanel extends JPanel {
 
         moyenne_panel.setBackground(Color.white);
         moyenne_panel.setLayout(null);
-        frame.add(moyenne_panel);
+        this.add(moyenne_panel);
 
         moyenne_text = new JLabel("Moyenne générale");
         moyenne_text.setBounds(15,6,200,20);
@@ -82,7 +84,7 @@ public class HomePanel extends JPanel {
         temp_panel.setBounds(510,80,200,70);
         temp_panel.setBackground(Color.white);
         temp_panel.setLayout(null);
-        frame.add(temp_panel);
+        this.add(temp_panel);
 
         temp_text = new JLabel("Temps total d'examens");
         temp_text.setBounds(15,6,200,20);
@@ -102,7 +104,7 @@ public class HomePanel extends JPanel {
         form_exam.setBounds(20,180,250,150);
         form_exam.setBackground(Color.white);
         form_exam.setLayout(null);
-        frame.add(form_exam);
+        this.add(form_exam);
 
 
 
@@ -126,14 +128,18 @@ public class HomePanel extends JPanel {
         acceder_btn.setOpaque(true);
         form_exam.add(acceder_btn);
 
+        acceder_btn.addActionListener(e ->{
+            String codeUnique = code_exam.getText();
+            JPanel questionPanel = new QuestionsPanel(cardPanel,codeUnique,user);
+            cardPanel.add(questionPanel,"questions");
+            CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+            cardLayout.show(cardPanel,"questions");
+
+        });
 
 
 
 
-
-        frame.setVisible(true);
     }
-    public static void main(String[] arg){
-        HomePanel homePanel = new HomePanel();
-    }
+
 }

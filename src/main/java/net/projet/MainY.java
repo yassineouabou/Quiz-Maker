@@ -6,10 +6,10 @@ import net.projet.ui.login.LoginPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main2 {
+public class MainY {
     public static void main(String[] args) {
         JFrame frame;
-        JPanel cardPanel,login_panel,inscrire_panel;
+        JPanel cardPanel,login_panel,inscrire_panel,homePanel,questionsPanel;
 
 
         frame = new JFrame();
@@ -21,7 +21,9 @@ public class Main2 {
         cardPanel.setBounds(0, 0, 800, 600);
 
         login_panel = new LoginPanel(cardPanel);
-        inscrire_panel = new InscrirePanel();
+        inscrire_panel = new InscrirePanel(cardPanel);
+
+
 
         cardPanel.add(login_panel,"login");
         cardPanel.add(inscrire_panel,"inscrire");

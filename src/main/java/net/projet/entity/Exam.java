@@ -6,13 +6,22 @@ public class Exam {
     private Long id;
     private String nom;
     private User prof;
-    private String codeUnque;
+    private String codeUnique;
     private List<Question> questions;
 
-    public Exam(String nom, User prof ) {
+
+    public Exam(Long id, String nom, User prof, String codeUnique, List<Question> questions) {
+        this.id = id;
         this.nom = nom;
         this.prof = prof;
-        this.codeUnque =UUID.randomUUID().toString().substring(0,20);;
+        this.codeUnique = codeUnique;
+        this.questions = questions;
+    }
+
+    public Exam(String nom, User prof , String codeUnique) {
+        this.nom = nom;
+        this.prof = prof;
+        this.codeUnique =codeUnique;
 
     }
 
@@ -41,11 +50,11 @@ public class Exam {
     }
 
     public String getCodeUnque() {
-        return codeUnque;
+        return codeUnique;
     }
 
     public void setCodeUnque(String codeUnque) {
-        this.codeUnque = codeUnque;
+        this.codeUnique = codeUnque;
     }
 
     public List<Question> getQuestions() {

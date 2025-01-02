@@ -6,6 +6,7 @@ import net.projet.entity.User;
 import net.projet.services.ExamService;
 import net.projet.services.QuestionService;
 
+import java.awt.datatransfer.StringSelection;
 import java.sql.SQLException;
 import java.util.UUID;
 import javax.swing.*;
@@ -224,23 +225,41 @@ public class CreateQuiz extends JPanel {
         ExamService examService=new ExamService();
         QuestionService questionService=new QuestionService();
 
-        Exam exam=new Exam(title.getText(),this.prof);
+        String codeUnique = UUID.randomUUID().toString().substring(0,20);
+        Exam exam=new Exam(title.getText(),this.prof,codeUnique);
 
-        examService.createExam(exam);
+        Long examId = examService.createExam(exam);
+        exam.setId(examId);
 
         for (questionContainerPanel q:questionPanels){
             String CorrectAnswer=q.rightanswer.getText();
-            ArrayList<String> options= new ArrayList<>();
-            options.add(CorrectAnswer);
+            StringBuilder options = new StringBuilder();
+            options.append(CorrectAnswer).append('#');
             for (JTextField option:q.options){
-                options.add(option.getText());
+                options.append(option.getText()).append('#');
             }
-
-            Question question=new Question(CorrectAnswer,options,exam);
+            String questionText = q.question.getText();
+            Question question=new Question(questionText,options.toString(),exam);
 
             questionService.createQuestion(question);
             questions.add(question);
 
+        }
+        int rep = JOptionPane.showConfirmDialog(this,
+                "Cliquez sur Yes pour copier :\n"+codeUnique,
+                "Exam Code",
+                JOptionPane.YES_NO_OPTION);
+
+        if(rep==JOptionPane.YES_OPTION){
+            StringSelection stringSelection = new StringSelection(codeUnique);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection,null);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Code copied to clipboard!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
 
     }

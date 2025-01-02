@@ -16,7 +16,7 @@ public class InscrirePanel extends JPanel {
     private final Color backgroundColor = new Color(245, 247, 251);
     private final Color textColor = new Color(55, 65, 81);
 
-    public InscrirePanel() {
+    public InscrirePanel(JPanel cardPanel) {
         userService = new UserService();
 
         this.setBounds(0, 0, 800, 600);
@@ -117,6 +117,8 @@ public class InscrirePanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Remplir tous les champs", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (userService.addUser(user)) {
                 JOptionPane.showMessageDialog(this, "Compte ajouté avec succès", "Inscription", JOptionPane.INFORMATION_MESSAGE);
+                CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                cardLayout.show(cardPanel,"login");
             } else {
                 JOptionPane.showMessageDialog(this, "Erreur dans l'ajout de compte", "Erreur", JOptionPane.ERROR_MESSAGE);
             }

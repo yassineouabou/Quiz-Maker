@@ -6,11 +6,17 @@ import java.util.List;
 public class Question {
     private Long id;
     private String text;
-    private ArrayList<String> options;
+    private String options;
     private Exam exam;
 
 
-    public Question(String text, ArrayList<String> options, Exam exam) {
+    public Question(Long id, String text, String options) {
+        this.id = id;
+        this.text = text;
+        this.options = options;
+    }
+
+    public Question(String text, String options, Exam exam) {
         this.text = text;
         this.options = options;
         this.exam = exam;
@@ -33,11 +39,11 @@ public class Question {
         this.text = text;
     }
 
-    public List<String> getOptions() {
+    public String getOptions() {
         return options;
     }
 
-    public void setOptions(ArrayList<String> options) {
+    public void setOptions(String options) {
         this.options = options;
     }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 public class UserDoa {
-    public Connection connection;
+    private Connection connection;
 
 
     public UserDoa(Connection connection){
@@ -93,6 +93,27 @@ public class UserDoa {
                         resultSet.getString(4),
                         resultSet.getString(5),
                         Roles.valueOf(resultSet.getString(6)));
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public User findById(Long id){
+        String query = "SELECT * FROM user WHERE userId = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setLong(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            if(!resultSet.next())
+                throw new UserNotFoundException("User Not Found !");
+            else{
+                User user = new User(resultSet.getLong(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4),
+                        resultSet.getString(5),
+                        Roles.valueOf(resultSet.getString(6)));
+                return user;
             }
         }catch (SQLException e){
             throw new RuntimeException(e);

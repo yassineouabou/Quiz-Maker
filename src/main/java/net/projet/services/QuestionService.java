@@ -13,11 +13,10 @@ public class QuestionService {
     }
 
     public boolean createQuestion(Question question) throws SQLException {
-        StringBuilder options = new StringBuilder();
+        return questiondoa.createQuestion(question);
+    }
 
-        for (String option : question.getOptions()) {
-            options.append(option).append(";#;");
-        }
-        return questiondoa.createQuestion(question.getText(), options.toString(),question.getExam().getId());
+    public Question findById(Long id){
+        return questiondoa.findById(id);
     }
 }

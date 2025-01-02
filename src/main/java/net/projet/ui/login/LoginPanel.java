@@ -1,8 +1,11 @@
 package net.projet.ui.login;
 
 import net.projet.entity.User;
+import net.projet.enums.Roles;
 import net.projet.exceptions.UserNotFoundException;
 import net.projet.services.UserService;
+import net.projet.ui.etudiant.HomePanel;
+import net.projet.ui.professorUI.ProfessorInterface;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,19 +22,16 @@ public class LoginPanel extends JPanel {
     public LoginPanel(JPanel cardPanel) {
         userService = new UserService();
 
-        // Panel Settings
         this.setBounds(0, 0, 800, 600);
         this.setLayout(null);
         this.setBackground(new Color(245, 247, 251));
 
-        // Title
         JLabel title = new JLabel("Connexion");
         title.setFont(new Font("Segoe UI", Font.BOLD, 40));
         title.setForeground(new Color(79, 120, 229));
         title.setBounds(270, 50, 200, 40);
         this.add(title);
 
-        // Email Label and Field
         email_label = new JLabel("Email :");
         email_label.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         email_label.setForeground(new Color(55, 65, 81));
@@ -44,7 +44,6 @@ public class LoginPanel extends JPanel {
         email_text.setBounds(250, 150, 350, 35);
         this.add(email_text);
 
-        // Password Label and Field
         password_label = new JLabel("Mot de passe :");
         password_label.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         password_label.setForeground(new Color(55, 65, 81));
@@ -57,7 +56,6 @@ public class LoginPanel extends JPanel {
         password_text.setBounds(250, 200, 350, 35);
         this.add(password_text);
 
-        // Buttons
         connecter_btn = new JButton("Se Connecter");
         connecter_btn.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         connecter_btn.setForeground(Color.WHITE);
@@ -76,7 +74,7 @@ public class LoginPanel extends JPanel {
         create_btn.setBounds(420, 300, 150, 40);
         this.add(create_btn);
 
-        // CardLayout for navigation
+
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         create_btn.addActionListener(e -> cl.show(cardPanel, "inscrire"));
 
@@ -90,7 +88,18 @@ public class LoginPanel extends JPanel {
             } else {
                 try {
                     User user = userService.login(email, password);
-                    System.out.println(user.getNom());
+                    if(user.getRole().equals(Roles.ETUDIANT)){
+                        JPanel homePanel =new HomePanel(cardPanel,user);
+                        cardPanel.add(homePanel,"home");
+                        cl.show(cardPanel,"home");
+                    }
+
+                    else if(user.getRole().equals(Roles.PROFESSEUR)){
+                        JPanel prof=new ProfessorInterface(user);
+                        cardPanel.add(prof,"prof");
+                        cl.show(cardPanel,"prof");
+                    }
+
                 } catch (UserNotFoundException er) {
                     JOptionPane.showMessageDialog(this, er.getMessage(), "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception er) {
