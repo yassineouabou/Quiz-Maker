@@ -6,21 +6,25 @@ public class Exam {
     private Long id;
     private String nom;
     private User prof;
+    private String temps;
     private String codeUnique;
     private List<Question> questions;
 
 
-    public Exam(Long id, String nom, User prof, String codeUnique, List<Question> questions) {
+    public Exam(Long id, String nom, User prof,String temps,String codeUnique, List<Question> questions) {
         this.id = id;
         this.nom = nom;
         this.prof = prof;
+        this.temps = temps;
         this.codeUnique = codeUnique;
         this.questions = questions;
     }
 
-    public Exam(String nom, User prof , String codeUnique) {
+    public Exam(String nom, User prof,String temps , String codeUnique) {
         this.nom = nom;
+        this.temps = temps;
         this.prof = prof;
+
         this.codeUnique =codeUnique;
 
     }
@@ -63,5 +67,13 @@ public class Exam {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    public String getTemps() {
+        return temps;
+    }
+
+    public void setTemps(String temps) {
+        this.temps = temps;
     }
 }

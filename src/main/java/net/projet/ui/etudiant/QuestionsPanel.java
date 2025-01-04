@@ -4,12 +4,17 @@ import net.projet.entity.EtudiantReponse;
 import net.projet.entity.Exam;
 import net.projet.entity.Question;
 import net.projet.entity.User;
+import net.projet.enums.Roles;
 import net.projet.services.ExamService;
 import net.projet.services.QuestionService;
 import net.projet.services.ReponseService;
+import net.projet.ui.professorUI.ProfessorInterface;
+import net.projet.util.DataBaseConnection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -85,6 +90,32 @@ public class QuestionsPanel extends JPanel {
         submit.addActionListener(e -> {
             handleSubmission(reponseService, questionService, user);
         });
+
+        SpinnerDateModel timeModel = new SpinnerDateModel();
+        JSpinner timeSpinner = new JSpinner(timeModel);
+
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
+        timeSpinner.setEditor(timeEditor);
+        timeSpinner.setValue(new Date());
+
+        timeSpinner.setBounds(400,500,80,30);
+
+        JLabel jLabel =new JLabel("Select Time:");
+        jLabel.setBounds(100,500,100,30);
+        this.add(jLabel);
+        this.add(timeSpinner);
+
+        JButton button = new JButton("Get Time");
+        button.setBounds(500,500,100,30);
+        this.add(button);
+
+        button.addActionListener(e -> {
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            Date selectedTime = (Date) timeSpinner.getValue();
+            String formattedTime = formatter.format(selectedTime);
+            JOptionPane.showMessageDialog(this, "Selected Time: " + formattedTime);
+        });
+
     }
 
     private JPanel createQuestionPanel(Question question) {
@@ -174,12 +205,10 @@ public class QuestionsPanel extends JPanel {
                     break;
                 }
             }
-
             if (selectedOption == null) {
                 JOptionPane.showMessageDialog(this, "Please answer all questions.", "Incomplete Submission", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
             Question question = questionService.findById(questionId);
             EtudiantReponse response = new EtudiantReponse(user, question, selectedOption);
             reponseService.addReponse(response);
@@ -187,7 +216,6 @@ public class QuestionsPanel extends JPanel {
 
         JOptionPane.showMessageDialog(this, "Exam submitted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
-
 
 
 

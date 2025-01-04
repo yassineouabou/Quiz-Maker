@@ -8,6 +8,8 @@ import net.projet.services.QuestionService;
 
 import java.awt.datatransfer.StringSelection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -67,6 +69,25 @@ public class CreateQuiz extends JPanel {
 
         this.add(titlePanel,BorderLayout.NORTH);
         this.add(questionsContainer,BorderLayout.CENTER);
+
+
+
+        //time
+        SpinnerDateModel timeModel = new SpinnerDateModel();
+        JSpinner timeSpinner = new JSpinner(timeModel);
+
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
+        timeSpinner.setEditor(timeEditor);
+        timeSpinner.setValue(new Date());
+
+        timeSpinner.setBounds(500,0,80,30);
+
+        JLabel jLabel =new JLabel("Select Time:");
+        jLabel.setBounds(400,0,100,30);
+        titlePanel.add(jLabel);
+        titlePanel.add(timeSpinner);
+
+
 
 
         addQuestionBtn =new JButton("Add A question");
@@ -155,7 +176,7 @@ public class CreateQuiz extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    submitQuiz();
+                    submitQuiz(timeSpinner);
                     cards.show(parent,"profhomepage");
                     questions.clear();
                     questionPanels.clear();
@@ -220,13 +241,18 @@ public class CreateQuiz extends JPanel {
         questionscards.previous(questionsContainer);
         questionsContainer.revalidate();
     }
-    public void submitQuiz() throws SQLException {
+    public void submitQuiz(JSpinner timeSpinner) throws SQLException {
 
         ExamService examService=new ExamService();
         QuestionService questionService=new QuestionService();
 
         String codeUnique = UUID.randomUUID().toString().substring(0,20);
-        Exam exam=new Exam(title.getText(),this.prof,codeUnique);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        Date selectedTime = (Date) timeSpinner.getValue();
+        String formattedTime = formatter.format(selectedTime);
+
+        Exam exam=new Exam(title.getText(),this.prof,formattedTime,codeUnique);
 
         Long examId = examService.createExam(exam);
         exam.setId(examId);

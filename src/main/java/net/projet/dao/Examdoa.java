@@ -35,11 +35,12 @@ public class Examdoa {
     }
 
     public Long CreateExam(Exam exam){
-        String query="INSERT INTO exam (nom,codeUnique,professorId) VALUES (?,?,?)";
+        String query="INSERT INTO exam (nom,codeUnique,professorId,temps) VALUES (?,?,?,?)";
         try(PreparedStatement ps = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1,exam.getNom());
             ps.setString(2,exam.getCodeUnque());
             ps.setLong(3,exam.getProf().getId());
+            ps.setString(4,exam.getTemps());
             int rowAffected = ps.executeUpdate();
             Long id = -1L;
             if (rowAffected > 0) {
@@ -72,6 +73,7 @@ public class Examdoa {
                         resultSet.getString(2),
                         user,
                         resultSet.getString(3),
+                        resultSet.getString(4),
                         questions);
                 return exam;
             }
