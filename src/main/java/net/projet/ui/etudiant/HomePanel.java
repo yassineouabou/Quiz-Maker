@@ -16,7 +16,7 @@ public class HomePanel extends JPanel {
     private final Color backgroundColor = new Color(245, 247, 251);
     private final Color textColor = new Color(55, 65, 81);
 
-    public HomePanel(JPanel cardPanel, User user){
+    public HomePanel(JPanel cardPanel, User user,JFrame parentFrame){
 
         this.setSize(800,600);
         this.setBackground(backgroundColor);
@@ -130,7 +130,7 @@ public class HomePanel extends JPanel {
 
         acceder_btn.addActionListener(e ->{
             String codeUnique = code_exam.getText();
-            JPanel questionPanel = new QuestionsPanel(cardPanel,codeUnique,user);
+            JPanel questionPanel = new QuestionsPanel(cardPanel,codeUnique,user,parentFrame);
             cardPanel.add(questionPanel,"questions");
             CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
             cardLayout.show(cardPanel,"questions");

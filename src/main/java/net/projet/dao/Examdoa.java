@@ -72,8 +72,8 @@ public class Examdoa {
                 Exam exam = new Exam(resultSet.getLong(1),
                         resultSet.getString(2),
                         user,
+                        resultSet.getString(5),
                         resultSet.getString(3),
-                        resultSet.getString(4),
                         questions);
                 return exam;
             }

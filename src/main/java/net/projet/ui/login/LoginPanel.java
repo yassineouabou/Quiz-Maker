@@ -19,7 +19,7 @@ public class LoginPanel extends JPanel {
     private JButton connecter_btn, create_btn;
     private final UserService userService;
 
-    public LoginPanel(JPanel cardPanel) {
+    public LoginPanel(JPanel cardPanel,JFrame parentFrame) {
         userService = new UserService();
 
         this.setBounds(0, 0, 800, 600);
@@ -89,7 +89,7 @@ public class LoginPanel extends JPanel {
                 try {
                     User user = userService.login(email, password);
                     if(user.getRole().equals(Roles.ETUDIANT)){
-                        JPanel homePanel =new HomePanel(cardPanel,user);
+                        JPanel homePanel =new HomePanel(cardPanel,user,parentFrame);
                         cardPanel.add(homePanel,"home");
                         cl.show(cardPanel,"home");
                     }
