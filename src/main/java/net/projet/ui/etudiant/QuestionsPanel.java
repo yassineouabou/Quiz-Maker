@@ -137,6 +137,7 @@ public class QuestionsPanel extends JPanel {
                     if (currentPanel instanceof QuestionsPanel) {
                         System.out.println("dkhl");
                         timer.stop();
+                        handleSubmission(reponseService, questionService, user,cardPanel);
 
                     }
                 }
