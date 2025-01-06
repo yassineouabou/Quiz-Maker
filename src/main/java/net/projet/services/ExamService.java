@@ -3,7 +3,7 @@ package net.projet.services;
 import net.projet.dao.Examdoa;
 import net.projet.entity.Exam;
 
-import java.sql.SQLException;
+
 
 public class ExamService {
     Examdoa examdoa;

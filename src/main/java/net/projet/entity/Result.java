@@ -6,6 +6,13 @@ public class Result {
     private Exam exam;
     private float note;
 
+    public Result(Long id, User etudiant, Exam exam, float note) {
+        this.id = id;
+        this.etudiant = etudiant;
+        this.exam = exam;
+        this.note = note;
+    }
+
     public Result(User etudiant, Exam exam, float note) {
         this.etudiant = etudiant;
         this.exam = exam;

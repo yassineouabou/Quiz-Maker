@@ -6,6 +6,14 @@ public class EtudiantReponse {
     private Question question;
     private String selectedOption;
 
+
+    public EtudiantReponse(Long id, User etudiant, Question question, String selectedOption) {
+        this.id = id;
+        this.etudiant = etudiant;
+        this.question = question;
+        this.selectedOption = selectedOption;
+    }
+
     public EtudiantReponse(User etudiant, Question question, String selectedOption) {
         this.etudiant = etudiant;
         this.question = question;

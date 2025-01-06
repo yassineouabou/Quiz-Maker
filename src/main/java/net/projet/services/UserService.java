@@ -32,4 +32,8 @@ public class UserService {
     public User login(String email,String password){
         return userDoa.login(email,password);
     }
+
+    public User findById(Long id){
+        return userDoa.findById(id);
+    }
 }

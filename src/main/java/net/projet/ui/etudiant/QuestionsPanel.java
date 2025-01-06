@@ -1,13 +1,11 @@
 package net.projet.ui.etudiant;
 
-import net.projet.entity.EtudiantReponse;
-import net.projet.entity.Exam;
-import net.projet.entity.Question;
-import net.projet.entity.User;
+import net.projet.entity.*;
 import net.projet.enums.Roles;
 import net.projet.services.ExamService;
 import net.projet.services.QuestionService;
 import net.projet.services.ReponseService;
+import net.projet.services.ResultService;
 import net.projet.ui.professorUI.ProfessorInterface;
 import net.projet.util.DataBaseConnection;
 
@@ -33,6 +31,12 @@ public class QuestionsPanel extends JPanel {
     private int remainingSeconds;
     Timer timer;
 
+    private Exam exam;
+    private ResultService resultService;
+    private ReponseService reponseService;
+    private ExamService examService;
+    private QuestionService questionService;
+
     private final Color primaryColor = new Color(79, 120, 229);
     private final Color primaryDark = new Color(2, 81, 171);
     private final Color backgroundColor = new Color(245, 247, 251);
@@ -41,11 +45,12 @@ public class QuestionsPanel extends JPanel {
     public QuestionsPanel(JPanel cardPanel, String codeUnique, User user,JFrame parentFrame) {
 
 
-        ReponseService reponseService = new ReponseService();
-        ExamService examService = new ExamService();
-        QuestionService questionService = new QuestionService();
+        reponseService = new ReponseService();
+        examService = new ExamService();
+        questionService = new QuestionService();
+        resultService = new ResultService();
 
-        Exam exam = examService.findExamByCodeUnique(codeUnique);
+        exam = examService.findExamByCodeUnique(codeUnique);
         if (exam == null || exam.getQuestions().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No questions available for this exam.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -57,7 +62,7 @@ public class QuestionsPanel extends JPanel {
                 JOptionPane.DEFAULT_OPTION);
 
         if(rep==0){
-            startCountdown(reponseService, questionService, user,cardPanel);
+            startCountdown(user,cardPanel);
         }
 
 
@@ -101,10 +106,7 @@ public class QuestionsPanel extends JPanel {
 
         this.add(cardPanelQuestions);
 
-
         initializeNavigationButtons(exam.getQuestions().size());
-
-
 
         //cardLyout for Question options
         CardLayout cl = (CardLayout) cardPanelQuestions.getLayout();
@@ -120,7 +122,7 @@ public class QuestionsPanel extends JPanel {
         });
 
         submit.addActionListener(e -> {
-            handleSubmission(reponseService, questionService, user,cardPanel);
+            handleSubmission(user,cardPanel);
         });
 
 
@@ -136,8 +138,7 @@ public class QuestionsPanel extends JPanel {
                     // Check if the current visible panel is an instance of QuestionsPanel
                     if (currentPanel instanceof QuestionsPanel) {
                         System.out.println("dkhl");
-                        timer.stop();
-                        handleSubmission(reponseService, questionService, user,cardPanel);
+                        handleSubmission(user,cardPanel);
 
                     }
                 }
@@ -225,7 +226,9 @@ public class QuestionsPanel extends JPanel {
     }
 
 
-    private void handleSubmission(ReponseService reponseService, QuestionService questionService, User user,JPanel cardPanel) {
+    private void handleSubmission(User user,JPanel cardPanel) {
+        float nbrQuestions = buttonGroups.size();
+        float nbrCorrectAnswer = 0;
         for (Map.Entry<Long, ButtonGroup> entry : buttonGroups.entrySet()) {
             Long questionId = entry.getKey();
             ButtonGroup group = entry.getValue();
@@ -244,18 +247,23 @@ public class QuestionsPanel extends JPanel {
             Question question = questionService.findById(questionId);
             EtudiantReponse response = new EtudiantReponse(user, question, selectedOption);
             reponseService.addReponse(response);
+            String correctAnswer = question.getOptions().split("#")[0];
+            if(Objects.equals(correctAnswer, selectedOption))
+                nbrCorrectAnswer++;
         }
-
-        //cardLayout Principal
         timer.stop();
-        JOptionPane.showMessageDialog(this, "Exam submitted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        float note =(nbrCorrectAnswer/nbrQuestions)*20;
+        Result result = new Result(user,exam,note);
+        resultService.addResult(result);
+
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
         cardLayout.show(cardPanel,"home");
+        JOptionPane.showMessageDialog(this, "Exam submitted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
     // Démarrer le compte à rebours
-    private void startCountdown(ReponseService reponseService, QuestionService questionService, User user,JPanel cardPanel) {
+    private void startCountdown( User user,JPanel cardPanel) {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -263,9 +271,8 @@ public class QuestionsPanel extends JPanel {
                     remainingSeconds--;
                     temps.setText(formatTime(remainingSeconds));
                 } else {
-                    timer.stop();
                     temps.setText("Terminé!");
-                    handleSubmission(reponseService, questionService, user,cardPanel);
+                    handleSubmission( user,cardPanel);
 
                 }
             }

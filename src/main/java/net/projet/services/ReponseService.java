@@ -4,6 +4,8 @@ import net.projet.dao.ReponseDoa;
 import net.projet.entity.EtudiantReponse;
 import net.projet.util.DataBaseConnection;
 
+import java.util.ArrayList;
+
 public class ReponseService {
     private ReponseDoa reponseDoa;
 
@@ -13,5 +15,9 @@ public class ReponseService {
 
     public boolean addReponse(EtudiantReponse etudiantReponse){
         return reponseDoa.saveReponse(etudiantReponse);
+    }
+
+    public ArrayList<EtudiantReponse> getAllReponseByEtudiantId(Long id){
+        return reponseDoa.getAllReponseByEtudiantId(id);
     }
 }
