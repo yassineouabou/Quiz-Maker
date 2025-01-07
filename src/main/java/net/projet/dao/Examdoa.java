@@ -81,4 +81,27 @@ public class Examdoa {
             throw new RuntimeException(e);
         }
     }
+
+    public Exam findById(Long examId){
+        String query = "SELECT * FROM exam WHERE examId = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setLong(1,examId);
+            ResultSet resultSet = ps.executeQuery();
+            if(!resultSet.next())
+                throw new ExamNotFoundException("Exam not found ! ");
+            else{
+                User user = userDoa.findById(resultSet.getLong(4));
+                ArrayList<Question> questions = questiondoa.getAllQuestionsByExamId(resultSet.getLong(1));
+                Exam exam = new Exam(resultSet.getLong(1),
+                        resultSet.getString(2),
+                        user,
+                        resultSet.getString(5),
+                        resultSet.getString(3),
+                        questions);
+                return exam;
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 }

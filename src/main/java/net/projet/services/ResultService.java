@@ -14,4 +14,8 @@ public class ResultService {
     public boolean addResult(Result result){
         return resultDoa.addResult(result);
     }
+
+    public Result findByEtudiantId(Long etudiantId){
+        return resultDoa.findResultOfUser(etudiantId);
+    }
 }

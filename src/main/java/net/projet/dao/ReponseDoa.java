@@ -19,6 +19,8 @@ public class ReponseDoa {
 
     public ReponseDoa(Connection connection){
         this.connection = connection;
+        userService = new UserService();
+        questionService = new QuestionService();
     }
 
     public boolean saveReponse(EtudiantReponse etudiantReponse){

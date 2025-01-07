@@ -19,4 +19,8 @@ public class ExamService {
         return examdoa.findExamByCodeUnique(codeUnique);
     }
 
+    public Exam findById(Long examId){
+        return examdoa.findById(examId);
+    }
+
 }
