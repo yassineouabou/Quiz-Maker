@@ -26,11 +26,10 @@ public class MainY {
         inscrire_panel = new InscrirePanel(cardPanel);
 
 
-
         cardPanel.add(login_panel,"login");
         cardPanel.add(inscrire_panel,"inscrire");
 
-
+        
 
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "login");
