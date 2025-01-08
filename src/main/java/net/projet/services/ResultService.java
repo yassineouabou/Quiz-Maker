@@ -4,6 +4,8 @@ import net.projet.dao.ResultDoa;
 import net.projet.entity.Result;
 import net.projet.util.DataBaseConnection;
 
+import java.util.ArrayList;
+
 public class ResultService {
     private ResultDoa resultDoa;
 
@@ -17,5 +19,9 @@ public class ResultService {
 
     public Result findByEtudiantId(Long etudiantId){
         return resultDoa.findResultOfUser(etudiantId);
+    }
+
+    public ArrayList<Result> getAllEtudiantResult(Long etudiantId){
+        return resultDoa.getAllEtudiantResult(etudiantId);
     }
 }

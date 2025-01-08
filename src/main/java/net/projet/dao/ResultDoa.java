@@ -4,6 +4,7 @@ import com.mysql.cj.log.Log;
 import net.projet.entity.Exam;
 import net.projet.entity.Result;
 import net.projet.entity.User;
+import net.projet.exceptions.ResultNotFoundException;
 import net.projet.exceptions.UserNotFoundException;
 import net.projet.services.ExamService;
 import net.projet.services.UserService;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ResultDoa {
     private Connection connection;
@@ -37,26 +39,47 @@ public class ResultDoa {
         }
     }
 
-    public Result findResultOfUser(Long userId){
+    public Result findResultOfUser(Long etudiantId){
         String query = "SELECT * FROM result WHERE studentId = ?";
         try(PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setLong(1,userId);
+            ps.setLong(1,etudiantId);
             ResultSet resultSet = ps.executeQuery();
             if(!resultSet.next())
-                throw new UserNotFoundException("User Not Found !");
+                throw new ResultNotFoundException("Result Not Found !");
             else{
-                System.out.println("Column 1: "+resultSet.getLong(1));
-                User user = userService.findById(userId);
+                User user = userService.findById(etudiantId);
                 Exam exam = examService.findById(resultSet.getLong(3));
                 Result result = new Result(resultSet.getLong(1),
                         user,
                         exam,
                         resultSet.getFloat(4));
-                System.out.println("result id: "+result.getId());
+
                 return result;
             }
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
     }
+
+    public ArrayList<Result> getAllEtudiantResult(Long etudiantId){
+        String query = "SELECT * FROM result WHERE studentId = ?";
+        ArrayList<Result> results = new ArrayList<>();
+        try(PreparedStatement ps =connection.prepareStatement(query)){
+            ps.setLong(1,etudiantId);
+            ResultSet resultSet = ps.executeQuery();
+            while(resultSet.next()){
+                User user = userService.findById(etudiantId);
+                Exam exam = examService.findById(resultSet.getLong(3));
+                Result result = new Result(resultSet.getLong(1),
+                        user,
+                        exam,
+                        resultSet.getFloat(4));
+                results.add(result);
+            }
+            return results;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 }

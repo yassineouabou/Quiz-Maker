@@ -3,6 +3,7 @@ package net.projet.ui.etudiant;
 import net.projet.entity.Exam;
 import net.projet.entity.Result;
 import net.projet.entity.User;
+import net.projet.exceptions.ResultNotFoundException;
 import net.projet.services.ExamService;
 import net.projet.services.ResultService;
 
@@ -138,19 +139,23 @@ public class HomePanel extends JPanel {
         form_exam.add(acceder_btn);
 
         acceder_btn.addActionListener(e ->{
+            Result result=null;
             String codeUnique = code_exam.getText();
             Exam exam = examService.findExamByCodeUnique(codeUnique);
-            Result result = resultService.findByEtudiantId(user.getId());
-            System.out.println("result id: "+result.getId());
-            //comparer entre exam  et le result de ce exam si true alor exam il est deja submit par ce etudiant
-            if(exam.getId().equals(result.getExam().getId())){
-                JOptionPane.showMessageDialog(this,"Déjà fait cet examen.","warning",JOptionPane.WARNING_MESSAGE);
+            try{
+                result = resultService.findByEtudiantId(user.getId());
+            }catch (ResultNotFoundException er){
+                System.out.println(er.getMessage());
             }
-            else{
+            if(result==null){
                 JPanel questionPanel = new QuestionsPanel(cardPanel,codeUnique,user,parentFrame);
                 cardPanel.add(questionPanel,"questions");
                 CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
                 cardLayout.show(cardPanel,"questions");
+            }
+            //comparer entre exam  et le result de ce exam si true alor exam il est deja submit par ce etudiant
+            else if(exam.getId().equals(result.getExam().getId())){
+                JOptionPane.showMessageDialog(this,"Déjà fait cet examen.","warning",JOptionPane.WARNING_MESSAGE);
             }
 
         });
