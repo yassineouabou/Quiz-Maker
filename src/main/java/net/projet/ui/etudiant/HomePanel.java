@@ -12,10 +12,10 @@ import java.awt.*;
 import java.util.Objects;
 
 public class HomePanel extends JPanel {
-    JLabel title,text,user_name,complete_text,complete_result,moyenne_text,moyenne_result,temp_text,temp_result;
+    JLabel title,text,user_name,complete_text,complete_result,moyenne_text,moyenne_result,temp_text,temp_result,resultLabel;
     JTextField code_exam;
-    JButton acceder_btn;
-    JPanel form_exam,complete_panel,moyenne_panel,temp_panel;
+    JButton acceder_btn,resultBtn;
+    JPanel form_exam,complete_panel,moyenne_panel,temp_panel,resultPanel;
     private ExamService examService;
     private ResultService resultService;
 
@@ -118,11 +118,11 @@ public class HomePanel extends JPanel {
         this.add(form_exam);
 
 
-        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/exam.png")));
-        Image resizedImage = imageIcon.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/quiz.png")));
+        Image resizedImage = imageIcon.getImage().getScaledInstance(40,40, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(resizedImage);
         JLabel imageLabel = new JLabel(resizedIcon);
-        imageLabel.setBounds(180,0,50,50);
+        imageLabel.setBounds(190,9,40,40);
         form_exam.add(imageLabel);
 
         text = new JLabel("Commencer un examen");
@@ -166,6 +166,38 @@ public class HomePanel extends JPanel {
             }
 
         });
+
+        resultPanel = new JPanel();
+        resultPanel.setBounds(300,180,250,150);
+        resultPanel.setBackground(Color.white);
+        resultPanel.setLayout(null);
+        this.add(resultPanel);
+
+        resultLabel = new JLabel("Resultat des Exam");
+        resultLabel.setBounds(55,0,200,40);
+        resultLabel.setFont(new Font("Segoe UI",Font.BOLD,15));
+        resultPanel.add(resultLabel);
+
+
+        ImageIcon imageIcon2 = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/bonne-note.png")));
+        Image resizedImage2 = imageIcon2.getImage().getScaledInstance(60,60, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon2 = new ImageIcon(resizedImage2);
+        JLabel imageLabel2 = new JLabel(resizedIcon2);
+        imageLabel2.setBounds(90,38,60,60);
+        resultPanel.add(imageLabel2);
+
+
+        resultBtn = new JButton("Resultat");
+        resultBtn.setBounds(25,110,200,25);
+        resultBtn.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        resultBtn.setForeground(Color.WHITE);
+        resultBtn.setBackground(primaryDark);
+        resultBtn.setFocusPainted(false);
+        resultBtn.setBorderPainted(false);
+        resultBtn.setContentAreaFilled(true);
+        resultBtn.setOpaque(true);
+        resultPanel.add(resultBtn);
+
 
 
     }
