@@ -36,24 +36,28 @@ public class ReponseDoa {
         }
     }
 
-    public ArrayList<EtudiantReponse> getAllReponseByEtudiantId(Long etudiantId){
-        String query = "SELECT * FROM studentresponse WHERE studentId = ?";
-        ArrayList<EtudiantReponse> etudiantReponses = new ArrayList<>();
+    public EtudiantReponse getAllReponseByEtudiantId(Long etudiantId,Long questionId){
+        String query = "SELECT * FROM studentresponse WHERE studentId = ? and questionId = ?";
         try(PreparedStatement ps = connection.prepareStatement(query)){
             ps.setLong(1,etudiantId);
+            ps.setLong(2,questionId);
             ResultSet resultSet = ps.executeQuery();
-            while(resultSet.next()){
+            if(!resultSet.next()){
+                throw new RuntimeException();
+            }
+            else{
                 User user = userService.findById(resultSet.getLong(2));
                 Question question = questionService.findById(resultSet.getLong(3));
                 EtudiantReponse etudiantReponse = new EtudiantReponse(resultSet.getLong(1),
                         user,
                         question,
                         resultSet.getString(4));
-                etudiantReponses.add(etudiantReponse);
+                return etudiantReponse;
             }
-            return etudiantReponses;
+
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
     }
+
 }

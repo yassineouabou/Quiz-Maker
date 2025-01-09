@@ -200,7 +200,7 @@ public class HomePanel extends JPanel {
 
 
         resultBtn.addActionListener(e->{
-            ResultPanel resultPanel = new ResultPanel(user);
+            ResultPanel resultPanel = new ResultPanel(user,cardPanel);
             cardPanel.add(resultPanel,"result");
             CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
             cardLayout.show(cardPanel,"result");

@@ -17,7 +17,7 @@ public class ReponseService {
         return reponseDoa.saveReponse(etudiantReponse);
     }
 
-    public ArrayList<EtudiantReponse> getAllReponseByEtudiantId(Long id){
-        return reponseDoa.getAllReponseByEtudiantId(id);
+    public EtudiantReponse getAllReponseByEtudiantId(Long etudiantId,Long questionId){
+        return reponseDoa.getAllReponseByEtudiantId(etudiantId,questionId);
     }
 }
