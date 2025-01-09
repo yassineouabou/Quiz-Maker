@@ -1,6 +1,7 @@
 package net.projet.ui.etudiant;
 
 import net.projet.entity.Result;
+import net.projet.entity.User;
 import net.projet.services.ResultService;
 
 import javax.swing.*;
@@ -9,21 +10,19 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ResultPanel {
+public class ResultPanel extends JPanel{
     private ResultService resultService;
     DefaultTableModel tableModel;
     JTable table;
     JScrollPane sp;
 
-    public ResultPanel() {
+    public ResultPanel(User user) {
         resultService = new ResultService();
-        JFrame frame = new JFrame("JTable Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        this.setSize(800, 600);
 
         String[] columnNames = {"Exam", "Note"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        ArrayList<Result> results = resultService.getAllEtudiantResult(5L);
+        ArrayList<Result> results = resultService.getAllEtudiantResult(user.getId());
 
         for (Result result : results) {
             tableModel.addRow(new Object[]{result.getExam().getNom(), result.getNote()});
@@ -73,13 +72,13 @@ public class ResultPanel {
         sp.setSize(600, 400);
         sp.setLocation(25, 70);
 
-        frame.add(sp);
+        this.add(sp);
 
-        frame.setVisible(true);
+        this.setVisible(true);
     }
 
-    public static void main(String[] arg){
+    /*public static void main(String[] arg){
         ResultPanel resultPanel = new ResultPanel();
-    }
+    }*/
 }
 

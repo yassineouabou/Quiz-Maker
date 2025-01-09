@@ -15,7 +15,7 @@ public class HomePanel extends JPanel {
     JLabel title,text,user_name,complete_text,complete_result,moyenne_text,moyenne_result,temp_text,temp_result,resultLabel;
     JTextField code_exam;
     JButton acceder_btn,resultBtn;
-    JPanel form_exam,complete_panel,moyenne_panel,temp_panel,resultPanel;
+    JPanel form_exam,complete_panel,moyenne_panel,temp_panel,result_panel;
     private ExamService examService;
     private ResultService resultService;
 
@@ -167,16 +167,16 @@ public class HomePanel extends JPanel {
 
         });
 
-        resultPanel = new JPanel();
-        resultPanel.setBounds(300,180,250,150);
-        resultPanel.setBackground(Color.white);
-        resultPanel.setLayout(null);
-        this.add(resultPanel);
+        result_panel = new JPanel();
+        result_panel.setBounds(300,180,250,150);
+        result_panel.setBackground(Color.white);
+        result_panel.setLayout(null);
+        this.add(result_panel);
 
         resultLabel = new JLabel("Resultat des Exam");
         resultLabel.setBounds(55,0,200,40);
         resultLabel.setFont(new Font("Segoe UI",Font.BOLD,15));
-        resultPanel.add(resultLabel);
+        result_panel.add(resultLabel);
 
 
         ImageIcon imageIcon2 = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/bonne-note.png")));
@@ -184,7 +184,7 @@ public class HomePanel extends JPanel {
         ImageIcon resizedIcon2 = new ImageIcon(resizedImage2);
         JLabel imageLabel2 = new JLabel(resizedIcon2);
         imageLabel2.setBounds(90,38,60,60);
-        resultPanel.add(imageLabel2);
+        result_panel.add(imageLabel2);
 
 
         resultBtn = new JButton("Resultat");
@@ -196,7 +196,15 @@ public class HomePanel extends JPanel {
         resultBtn.setBorderPainted(false);
         resultBtn.setContentAreaFilled(true);
         resultBtn.setOpaque(true);
-        resultPanel.add(resultBtn);
+        result_panel.add(resultBtn);
+
+
+        resultBtn.addActionListener(e->{
+            ResultPanel resultPanel = new ResultPanel(user);
+            cardPanel.add(resultPanel,"result");
+            CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+            cardLayout.show(cardPanel,"result");
+        });
 
 
 

@@ -28,15 +28,11 @@ public class MainY {
 
         cardPanel.add(login_panel,"login");
         cardPanel.add(inscrire_panel,"inscrire");
-
         
 
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "login");
         frame.add(cardPanel);
-
-
-
 
         frame.setVisible(true);
 

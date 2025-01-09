@@ -16,7 +16,6 @@ public class DataBaseConnection {
             if(connection!=null)
                 System.out.println("CONNECTED...");
 
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
