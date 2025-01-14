@@ -82,4 +82,37 @@ public class ResultDoa {
         }
     }
 
+    public int nbrResultByetudiantId(Long etudiantId){
+        String query = "SELECT COUNT(*) as nbrExam FROM result WHERE studentId = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setLong(1,etudiantId);
+            ResultSet resultSet = ps.executeQuery();
+            if(!resultSet.next())
+                throw new ResultNotFoundException("Result Not found Exception !");
+            else {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public float moyenGenerale(Long etudiantId){
+        String query = "SELECT COUNT(*) as nbrExam, SUM(note) as totalNote FROM result WHERE studentId = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setLong(1,etudiantId);
+            ResultSet resultSet = ps.executeQuery();
+            if(!resultSet.next())
+                throw new ResultNotFoundException("Result Not found Exception !");
+            else {
+                int totalExam = resultSet.getInt(1);
+                float totalNote = resultSet.getFloat(2);
+                return totalNote/totalExam;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

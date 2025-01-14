@@ -24,4 +24,12 @@ public class ResultService {
     public ArrayList<Result> getAllEtudiantResult(Long etudiantId){
         return resultDoa.getAllEtudiantResult(etudiantId);
     }
+
+    public int nbrResultByetudiantId(Long etudiantId){
+        return resultDoa.nbrResultByetudiantId(etudiantId);
+    }
+
+    public float moyenneGenerale(Long etudiantId){
+        return resultDoa.moyenGenerale(etudiantId);
+    }
 }

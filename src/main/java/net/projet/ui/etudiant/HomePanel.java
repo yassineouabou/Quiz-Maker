@@ -46,18 +46,19 @@ public class HomePanel extends JPanel {
         this.add(user_name);
 
         complete_panel =  new JPanel();
-        complete_panel.setBounds(40,80,200,70);
+        complete_panel.setBounds(50,120,300,100);
         complete_panel.setBackground(Color.white);
         complete_panel.setLayout(null);
         this.add(complete_panel);
 
+        int nbrExamSolved = resultService.nbrResultByetudiantId(user.getId());
         complete_text = new JLabel("Examens complétés");
-        complete_text.setBounds(15,6,200,20);
+        complete_text.setBounds(80,6,200,25);
         complete_panel.add(complete_text);
 
-        complete_result = new JLabel("0");
-        complete_result.setBounds(15,33,100,20);
-        complete_result.setFont(new Font("SansSerif",Font.BOLD,20));
+        complete_result = new JLabel(String.valueOf(nbrExamSolved));
+        complete_result.setBounds(130,50,100,20);
+        complete_result.setFont(new Font("SansSerif",Font.BOLD,25));
         complete_result.setForeground(primaryDark);
         complete_panel.add(complete_result);
 
@@ -68,51 +69,27 @@ public class HomePanel extends JPanel {
 
 
         moyenne_panel =  new JPanel();
-        moyenne_panel.setBounds(280,80,200,70);
-
+        moyenne_panel.setBounds(400,120,300,100);
         moyenne_panel.setBackground(Color.white);
         moyenne_panel.setLayout(null);
         this.add(moyenne_panel);
 
+        float moyenne = resultService.moyenneGenerale(user.getId());
         moyenne_text = new JLabel("Moyenne générale");
-        moyenne_text.setBounds(15,6,200,20);
+        moyenne_text.setBounds(100,6,200,25);
         moyenne_panel.add(moyenne_text);
 
-        moyenne_result = new JLabel("18/20");
-        moyenne_result.setBounds(15,33,100,20);
-        moyenne_result.setFont(new Font("SansSerif",Font.BOLD,20));
+        moyenne_result = new JLabel(String.valueOf(moyenne)+"/20");
+        moyenne_result.setBounds(110,50,100,20);
+        moyenne_result.setFont(new Font("SansSerif",Font.BOLD,25));
         moyenne_result.setForeground(new Color(0, 99, 19 ));
         moyenne_panel.add(moyenne_result);
 
 
 
 
-
-
-
-
-        temp_panel =  new JPanel();
-        temp_panel.setBounds(510,80,200,70);
-        temp_panel.setBackground(Color.white);
-        temp_panel.setLayout(null);
-        this.add(temp_panel);
-
-        temp_text = new JLabel("Temps total d'examens");
-        temp_text.setBounds(15,6,200,20);
-        temp_panel.add(temp_text);
-
-        temp_result = new JLabel("0h");
-        temp_result.setBounds(15,33,100,20);
-        temp_result.setFont(new Font("SansSerif",Font.BOLD,20));
-        temp_result.setForeground(new Color(174, 0, 179 ));
-        temp_panel.add(temp_result);
-
-
-
-
-
         form_exam = new JPanel();
-        form_exam.setBounds(20,180,250,150);
+        form_exam.setBounds(50,280,300,150);
         form_exam.setBackground(Color.white);
         form_exam.setLayout(null);
         this.add(form_exam);
@@ -122,20 +99,20 @@ public class HomePanel extends JPanel {
         Image resizedImage = imageIcon.getImage().getScaledInstance(40,40, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(resizedImage);
         JLabel imageLabel = new JLabel(resizedIcon);
-        imageLabel.setBounds(190,9,40,40);
+        imageLabel.setBounds(220,9,40,40);
         form_exam.add(imageLabel);
 
         text = new JLabel("Commencer un examen");
-        text.setBounds(15,4,200,50);
+        text.setBounds(45,4,200,50);
         text.setFont(new Font("Segoe UI",Font.BOLD,15));
         form_exam.add(text);
 
         code_exam = new JTextField();
-        code_exam.setBounds(25,60,200,30);
+        code_exam.setBounds(45,60,200,30);
         form_exam.add(code_exam);
 
         acceder_btn = new JButton("Accéder a l'examen");
-        acceder_btn.setBounds(25,100,200,30);
+        acceder_btn.setBounds(45,100,200,30);
         acceder_btn.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         acceder_btn.setForeground(Color.WHITE);
         acceder_btn.setBackground(primaryDark);
@@ -168,13 +145,13 @@ public class HomePanel extends JPanel {
         });
 
         result_panel = new JPanel();
-        result_panel.setBounds(300,180,250,150);
+        result_panel.setBounds(400,280,300,150);
         result_panel.setBackground(Color.white);
         result_panel.setLayout(null);
         this.add(result_panel);
 
         resultLabel = new JLabel("Resultat des Exam");
-        resultLabel.setBounds(55,0,200,40);
+        resultLabel.setBounds(85,0,200,40);
         resultLabel.setFont(new Font("Segoe UI",Font.BOLD,15));
         result_panel.add(resultLabel);
 
@@ -183,12 +160,12 @@ public class HomePanel extends JPanel {
         Image resizedImage2 = imageIcon2.getImage().getScaledInstance(60,60, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon2 = new ImageIcon(resizedImage2);
         JLabel imageLabel2 = new JLabel(resizedIcon2);
-        imageLabel2.setBounds(90,38,60,60);
+        imageLabel2.setBounds(120,38,60,60);
         result_panel.add(imageLabel2);
 
 
         resultBtn = new JButton("Resultat");
-        resultBtn.setBounds(25,110,200,25);
+        resultBtn.setBounds(55,110,200,25);
         resultBtn.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         resultBtn.setForeground(Color.WHITE);
         resultBtn.setBackground(primaryDark);

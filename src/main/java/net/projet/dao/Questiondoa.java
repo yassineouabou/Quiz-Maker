@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Questiondoa {
 
     private Connection connection;
-    private Statement stat;
 
 
     public Questiondoa() {
@@ -18,13 +17,7 @@ public class Questiondoa {
     }
 
     public void connecter() {
-        try {
-            connection = DataBaseConnection.getConnection();
-            stat = connection.createStatement();
-        }
-        catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        connection = DataBaseConnection.getConnection();
     }
 
     public boolean createQuestion(Question question){

@@ -11,8 +11,7 @@ import java.awt.event.WindowEvent;
 public class MainY {
     public static void main(String[] args) {
         JFrame frame;
-        JPanel cardPanel,login_panel,inscrire_panel,homePanel,questionsPanel;
-
+        JPanel cardPanel,login_panel,inscrire_panel;
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
