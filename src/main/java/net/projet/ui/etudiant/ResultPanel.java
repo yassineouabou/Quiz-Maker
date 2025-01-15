@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResultPanel extends JPanel {
-    private static final Color PRIMARY_COLOR = new Color(51, 153, 255);  // Bleu clair
-    private static final Color SUCCESS_COLOR = new Color(76, 175, 80);   // Vert
-    private static final Color ERROR_COLOR = new Color(244, 67, 54);     // Rouge
-    private static final Color BUTTON_COLOR = new Color(255, 165, 0);    // Orange pour le bouton "Voir"
-    private static final Color RETURN_BUTTON_COLOR = new Color(128, 128, 128); // Gris pour le bouton retour
-    private static final Font HEADER_FONT = new Font("Segoe UI", Font.BOLD, 14);
-    private static final Font CONTENT_FONT = new Font("Segoe UI", Font.PLAIN, 13);
+    private final Color PRIMARY_COLOR = new Color(51, 153, 255);  // Bleu clair
+    private final Color SUCCESS_COLOR = new Color(76, 175, 80);   // Vert
+    private final Color ERROR_COLOR = new Color(244, 67, 54);     // Rouge
+    private final Color BUTTON_COLOR = new Color(255, 165, 0);    // Orange pour le bouton "Voir"
+    private final Color RETURN_BUTTON_COLOR = new Color(128, 128, 128); // Gris pour le bouton retour
+    private final Font HEADER_FONT = new Font("Segoe UI", Font.BOLD, 14);
+    private final Font CONTENT_FONT = new Font("Segoe UI", Font.PLAIN, 13);
 
     private final JTable resultTable;
     private final DefaultTableModel tableModel;

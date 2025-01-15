@@ -131,15 +131,15 @@ public class HomePanel extends JPanel {
             }catch (ResultNotFoundException er){
                 System.out.println(er.getMessage());
             }
-            if(result==null){
+            //comparer entre exam  et le result de ce exam si true alor exam il est deja submit par ce etudiant
+            if(result!=null && exam.getId().equals(result.getExam().getId())){
+                JOptionPane.showMessageDialog(this,"Déjà fait cet examen.","warning",JOptionPane.WARNING_MESSAGE);
+            }
+            else{
                 JPanel questionPanel = new QuestionsPanel(cardPanel,codeUnique,user,parentFrame);
                 cardPanel.add(questionPanel,"questions");
                 CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
                 cardLayout.show(cardPanel,"questions");
-            }
-            //comparer entre exam  et le result de ce exam si true alor exam il est deja submit par ce etudiant
-            else if(exam.getId().equals(result.getExam().getId())){
-                JOptionPane.showMessageDialog(this,"Déjà fait cet examen.","warning",JOptionPane.WARNING_MESSAGE);
             }
 
         });

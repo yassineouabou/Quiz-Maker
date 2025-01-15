@@ -112,6 +112,27 @@ public class ResultDoa {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public ArrayList<Result> getAllByExamId(Long examId){
+        String query = "SELECT * FROM result WHERE examId = ?";
+        ArrayList<Result> results = new ArrayList<>();
+        try(PreparedStatement ps =connection.prepareStatement(query)){
+            ps.setLong(1,examId);
+            ResultSet resultSet = ps.executeQuery();
+            while(resultSet.next()){
+                User user = userService.findById(resultSet.getLong(2));
+                Exam exam = examService.findById(examId);
+                Result result = new Result(resultSet.getLong(1),
+                        user,
+                        exam,
+                        resultSet.getFloat(4));
+                results.add(result);
+            }
+            return results;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
 
     }
 

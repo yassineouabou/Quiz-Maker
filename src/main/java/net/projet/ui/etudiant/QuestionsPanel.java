@@ -1,22 +1,15 @@
 package net.projet.ui.etudiant;
 
 import net.projet.entity.*;
-import net.projet.enums.Roles;
 import net.projet.services.ExamService;
 import net.projet.services.QuestionService;
 import net.projet.services.ReponseService;
 import net.projet.services.ResultService;
-import net.projet.ui.professorUI.ProfessorInterface;
-import net.projet.util.DataBaseConnection;
 
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Connection;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 

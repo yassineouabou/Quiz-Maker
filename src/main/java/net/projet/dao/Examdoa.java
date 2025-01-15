@@ -97,4 +97,27 @@ public class Examdoa {
             throw new RuntimeException(e);
         }
     }
+
+    public ArrayList<Exam> findByProfId(Long profId){
+        String query = "SELECT * FROM exam where professorId = ?";
+        ArrayList<Exam> exams = new ArrayList<>();
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setLong(1,profId);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()){
+                User user = userDoa.findById(resultSet.getLong(4));
+                ArrayList<Question> questions = questiondoa.getAllQuestionsByExamId(resultSet.getLong(1));
+                Exam exam = new Exam(resultSet.getLong(1),
+                        resultSet.getString(2),
+                        user,
+                        resultSet.getString(5),
+                        resultSet.getString(3),
+                        questions);
+                exams.add(exam);
+            }
+            return exams;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 }
