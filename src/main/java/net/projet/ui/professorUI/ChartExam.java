@@ -13,6 +13,7 @@ import org.jfree.chart.plot.PiePlot;
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
