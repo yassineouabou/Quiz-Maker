@@ -6,6 +6,7 @@ import net.projet.exceptions.UserNotFoundException;
 import net.projet.services.UserService;
 import net.projet.ui.etudiant.HomePanel;
 import net.projet.ui.professorUI.ProfessorInterface;
+import net.projet.util.DataBaseConnection;
 
 import javax.swing.*;
 import javax.swing.border.Border;

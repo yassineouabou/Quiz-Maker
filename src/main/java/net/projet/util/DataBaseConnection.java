@@ -33,7 +33,7 @@ public class DataBaseConnection {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Connexion fermée.");
+                System.out.println("...DECONNECTED");
             } catch (Exception e) {
                 e.printStackTrace();
             }

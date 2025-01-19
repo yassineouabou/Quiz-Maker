@@ -6,6 +6,7 @@ import net.projet.entity.User;
 import net.projet.exceptions.ResultNotFoundException;
 import net.projet.services.ExamService;
 import net.projet.services.ResultService;
+import net.projet.util.DataBaseConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -182,6 +183,17 @@ public class HomePanel extends JPanel {
             CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
             cardLayout.show(cardPanel,"result");
         });
+
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/eteindre.png")));
+        Image resize = img.getImage().getScaledInstance(40,40, Image.SCALE_SMOOTH);
+        ImageIcon resizedImg= new ImageIcon(resize);
+        JButton decButton =new JButton(resizedImg);
+        decButton.setBounds(700, 10, 42, 42);
+        decButton.addActionListener(e -> {
+            CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+            cardLayout.show(cardPanel, "login");
+        });
+        add(decButton);
 
 
 

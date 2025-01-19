@@ -130,7 +130,6 @@ public class QuestionsPanel extends JPanel {
 
                     // Check if the current visible panel is an instance of QuestionsPanel
                     if (currentPanel instanceof QuestionsPanel) {
-                        System.out.println("dkhl");
                         handleSubmission(user,cardPanel);
 
                     }

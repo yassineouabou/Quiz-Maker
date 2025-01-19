@@ -18,6 +18,7 @@ public class MainY {
         frame.setSize(800,600);
         frame.setLayout(null);
 
+
         cardPanel = new JPanel(new CardLayout());
         cardPanel.setBounds(0, 0, 800, 600);
 
