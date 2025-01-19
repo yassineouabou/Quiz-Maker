@@ -14,7 +14,7 @@ public class Main {
         frame.setSize(800,600);
         frame.setResizable(false);
         User professor=new User("said","nassiri","123456789","nassiri21@gmail.com", Roles.PROFESSEUR);
-        professor.setId((long) 1);
+        professor.setId((long) 2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ProfessorInterface prof=new ProfessorInterface(professor);
