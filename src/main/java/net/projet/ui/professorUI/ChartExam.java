@@ -14,82 +14,92 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Objects;
 
-public class ChartExam extends JFrame {
-    private final ExamService examService;
-    private final ResultService resultService;
+public class ChartExam extends JPanel {
+    private final Color RETURN_BUTTON_COLOR = new Color(128, 128, 128); // Gris pour le bouton retour
+    private final Color backgroundColor = new Color(245, 247, 251);
+    private final Font CONTENT_FONT = new Font("Segoe UI", Font.PLAIN, 13);
+
     private int passable, bon, mauvais;
-    private Long selectedId;
+    private ArrayList<Result> results;
     private JFreeChart chart;
     private ChartPanel chartPanel;
+    JButton return_btn;
+    JPanel parent;
+    public ChartExam(ArrayList<Result> results, JPanel parent) {
 
-    public ChartExam(String title, Long professorId) {
-        super(title);
-        this.examService = new ExamService();
-        this.resultService = new ResultService();
 
-        initializeUI(professorId);
+
+        this.results=results;
+        this.parent=parent;
+        initializeUI();
     }
 
-    private void initializeUI(Long professorId) {
-        setLayout(new BorderLayout());
-
-        List<Exam> exams = examService.findByProfId(professorId);
-        if (exams.isEmpty()) {
+    private void initializeUI() {
+        setLayout(null);
+        setBackground(backgroundColor);
+        this.return_btn=createReturnButton();
+        this.return_btn.setBounds(650, 20, 120, 30);
+        this.add(return_btn);
+        if (results.isEmpty()) {
             showError("Aucun examen trouvé pour ce professeur");
             return;
         }
 
-        selectedId = exams.get(0).getId();
-
-        JComboBox<Exam> examComboBox = createExamComboBox(exams);
-
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        topPanel.add(new JLabel("Sélectionner un examen : "));
-        topPanel.add(examComboBox);
-
         updateChartData();
         chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(800, 600));
+        chartPanel.setBounds(0,60,800, 500);
+        chartPanel.setBackground(backgroundColor);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(chartPanel, BorderLayout.CENTER);
+        add(chartPanel);
 
-        pack();
-        setLocationRelativeTo(null);
     }
+    private JButton createReturnButton() {
+        JButton returnButton = new JButton("Retour");
+        returnButton.setBackground(RETURN_BUTTON_COLOR);
+        returnButton.setForeground(Color.WHITE);
+        returnButton.setFont(CONTENT_FONT);
+        returnButton.setFocusPainted(false);
+        returnButton.setBorderPainted(false);
+        returnButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-    private JComboBox<Exam> createExamComboBox(List<Exam> exams) {
-        DefaultComboBoxModel<Exam> model = new DefaultComboBoxModel<>(exams.toArray(new Exam[0]));
-        JComboBox<Exam> examComboBox = new JComboBox<>(model);
-
-        examComboBox.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value,
-                                                          int index, boolean isSelected, boolean cellHasFocus) {
-                if (value instanceof Exam) {
-                    value = ((Exam) value).getNom();
-                }
-                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            }
+        returnButton.addActionListener(e -> {
+            CardLayout cardLayout = (CardLayout) parent.getLayout();
+            cardLayout.show(parent, "managequizpage");
         });
-
-        examComboBox.addActionListener(e -> {
-            Exam selectedExam = (Exam) examComboBox.getSelectedItem();
-            if (selectedExam != null) {
-                selectedId = selectedExam.getId();
-                updateChartData();
-                chartPanel.setChart(chart);
-            }
-        });
-
-        examComboBox.setPreferredSize(new Dimension(200, 25));
-        return examComboBox;
+        return returnButton;
     }
+//    private JComboBox<Exam> createExamComboBox(List<Exam> exams) {
+//        DefaultComboBoxModel<Exam> model = new DefaultComboBoxModel<>(exams.toArray(new Exam[0]));
+//        JComboBox<Exam> examComboBox = new JComboBox<>(model);
+//
+//        examComboBox.setRenderer(new DefaultListCellRenderer() {
+//            @Override
+//            public Component getListCellRendererComponent(JList<?> list, Object value,
+//                                                          int index, boolean isSelected, boolean cellHasFocus) {
+//                if (value instanceof Exam) {
+//                    value = ((Exam) value).getNom();
+//                }
+//                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+//            }
+//        });
+//
+//        examComboBox.addActionListener(e -> {
+//            Exam selectedExam = (Exam) examComboBox.getSelectedItem();
+//            if (selectedExam != null) {
+//                selectedId = selectedExam.getId();
+//                updateChartData();
+//                chartPanel.setChart(chart);
+//            }
+//        });
+//
+//        examComboBox.setPreferredSize(new Dimension(200, 25));
+//        return examComboBox;
+//    }
 
     private void updateChartData() {
-        List<Result> results = resultService.getAllByExamId(selectedId);
-        calculateStatistics(results);
+        calculateStatistics(this.results);
         DefaultPieDataset dataset = createDataset();
 
         chart = ChartFactory.createPieChart(
@@ -99,6 +109,7 @@ public class ChartExam extends JFrame {
                 true,
                 false
         );
+        chart.setBackgroundPaint(backgroundColor);
 
         // Customize the plot to show numbers
         PiePlot plot = (PiePlot) chart.getPlot();
@@ -118,6 +129,7 @@ public class ChartExam extends JFrame {
         plot.setLabelBackgroundPaint(new Color(255, 255, 255, 180)); // Semi-transparent white
         plot.setLabelOutlinePaint(null); // No outline
         plot.setLabelShadowPaint(null);  // No shadow
+        plot.setBackgroundPaint(new Color(243, 251, 255));
     }
 
     private void calculateStatistics(List<Result> results) {
@@ -149,11 +161,5 @@ public class ChartExam extends JFrame {
         JOptionPane.showMessageDialog(this, message, "Erreur", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            ChartExam chart = new ChartExam("Statistiques des Examens", 6L);
-            chart.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            chart.setVisible(true);
-        });
-    }
+
 }

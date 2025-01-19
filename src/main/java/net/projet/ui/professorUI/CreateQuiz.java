@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+
 public class CreateQuiz extends JPanel {
     User prof;
     JTextField title;
@@ -162,7 +163,10 @@ public class CreateQuiz extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+
                 cards.show(parent,"profhomepage");
+
             }
         });
 
