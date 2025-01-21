@@ -1,25 +1,41 @@
 package net.projet;
-import net.projet.entity.User;
-import net.projet.enums.Roles;
-import net.projet.ui.professorUI.ProfessorInterface;
-import net.projet.util.DataBaseConnection;
+
+import net.projet.ui.login.InscrirePanel;
+import net.projet.ui.login.LoginPanel;
 
 import javax.swing.*;
-import java.sql.Connection;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Main {
     public static void main(String[] args) {
-        Connection connection = DataBaseConnection.getConnection();
-        JFrame frame=new JFrame("quiz maker");
-        frame.setSize(800,600);
-        frame.setResizable(false);
-        User professor=new User("said","nassiri","123456789","nassiri21@gmail.com", Roles.PROFESSEUR);
-        professor.setId((long) 2);
+        JFrame frame;
+        JPanel cardPanel,login_panel,inscrire_panel;
+        frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ProfessorInterface prof=new ProfessorInterface(professor);
+        frame.setSize(800,600);
+        frame.setLayout(null);
 
-        frame.add(prof);
+
+        cardPanel = new JPanel(new CardLayout());
+        cardPanel.setBounds(0, 0, 800, 600);
+
+        login_panel = new LoginPanel(cardPanel,frame);
+        inscrire_panel = new InscrirePanel(cardPanel);
+
+
+        cardPanel.add(login_panel,"login");
+        cardPanel.add(inscrire_panel,"inscrire");
+
+        
+
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "login");
+        frame.add(cardPanel);
+
         frame.setVisible(true);
+
     }
 }
