@@ -22,7 +22,7 @@ public class Main {
         cardPanel = new JPanel(new CardLayout());
         cardPanel.setBounds(0, 0, 800, 600);
 
-        login_panel = new LoginPanel(cardPanel,frame);
+        login_panel = new LoginPanel(cardPanel);
         inscrire_panel = new InscrirePanel(cardPanel);
 
 

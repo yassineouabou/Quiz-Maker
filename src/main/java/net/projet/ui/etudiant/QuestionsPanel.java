@@ -35,7 +35,7 @@ public class QuestionsPanel extends JPanel {
     private final Color backgroundColor = new Color(245, 247, 251);
     private final Color textColor = new Color(55, 65, 81);
 
-    public QuestionsPanel(JPanel cardPanel, String codeUnique, User user,JFrame parentFrame) {
+    public QuestionsPanel(JPanel cardPanel, String codeUnique, User user) {
 
 
         reponseService = new ReponseService();
@@ -99,9 +99,29 @@ public class QuestionsPanel extends JPanel {
 
         this.add(cardPanelQuestions);
 
-        initializeNavigationButtons(exam.getQuestions().size());
+        next = new JButton("Next");
+        next.setBounds(350, 460, 100, 30);
+        next.setBackground(primaryColor);
+        next.setForeground(Color.WHITE);
+        next.setFocusPainted(false);
+        this.add(next);
 
-        //cardLyout for Question options
+        previous = new JButton("Previous");
+        previous.setBounds(150, 460, 100, 30);
+        previous.setBackground(primaryColor);
+        previous.setForeground(Color.WHITE);
+        previous.setFocusPainted(false);
+        previous.setEnabled(false);
+        this.add(previous);
+
+        submit = new JButton("Submit");
+        submit.setBounds(550, 460, 100, 30);
+        submit.setBackground(Color.green);
+        submit.setForeground(Color.WHITE);
+        submit.setFocusPainted(false);
+        submit.setVisible(exam.getQuestions().size()==1);
+        this.add(submit);
+
         CardLayout cl = (CardLayout) cardPanelQuestions.getLayout();
         cl.show(cardPanelQuestions, "Panel0");
 
@@ -118,24 +138,6 @@ public class QuestionsPanel extends JPanel {
             handleSubmission(user,cardPanel);
         });
 
-
-        parentFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-                if(!parentFrame.isFocused()){
-                    CardLayout cl = (CardLayout) cardPanel.getLayout();
-
-                    // Get the currently visible card (panel) from the card layout
-                    Component currentPanel = getCurrentVisiblePanel(cardPanel);
-
-                    // Check if the current visible panel is an instance of QuestionsPanel
-                    if (currentPanel instanceof QuestionsPanel) {
-                        handleSubmission(user,cardPanel);
-
-                    }
-                }
-            }
-        });
 
 
     }
@@ -160,44 +162,20 @@ public class QuestionsPanel extends JPanel {
         String[] options = question.getOptions().split("#");
         List<String> optionList = Arrays.asList(options);
         Collections.shuffle(optionList);
-            for (String option : optionList) {
-                JRadioButton radioButton = new JRadioButton(option);
-                radioButton.setBackground(Color.white);
-                radioButton.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-                radioButton.setForeground(textColor);
-                buttonGroup.add(radioButton);
-                panel.add(radioButton);
-                panel.add(Box.createRigidArea(new Dimension(0, 10)));
-            }
+        for (String option : optionList) {
+            JRadioButton radioButton = new JRadioButton(option);
+            radioButton.setBackground(Color.white);
+            radioButton.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+            radioButton.setForeground(textColor);
+            buttonGroup.add(radioButton);
+            panel.add(radioButton);
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        }
 
         buttonGroups.put(question.getId(), buttonGroup);
         return panel;
     }
 
-    private void initializeNavigationButtons(int totalQuestions) {
-        next = new JButton("Next");
-        next.setBounds(350, 460, 100, 30);
-        next.setBackground(primaryColor);
-        next.setForeground(Color.WHITE);
-        next.setFocusPainted(false);
-        this.add(next);
-
-        previous = new JButton("Previous");
-        previous.setBounds(150, 460, 100, 30);
-        previous.setBackground(primaryColor);
-        previous.setForeground(Color.WHITE);
-        previous.setFocusPainted(false);
-        previous.setEnabled(false);
-        this.add(previous);
-
-        submit = new JButton("Submit");
-        submit.setBounds(550, 460, 100, 30);
-        submit.setBackground(Color.green);
-        submit.setForeground(Color.WHITE);
-        submit.setFocusPainted(false);
-        submit.setVisible(totalQuestions==1);
-        this.add(submit);
-    }
 
 
     private void navigateToNextQuestion(CardLayout cl, int totalQuestions) {
@@ -236,6 +214,7 @@ public class QuestionsPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Please answer all questions.", "Incomplete Submission", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            //chercher la question et comparer avec la reponse de l'etudiant
             Question question = questionService.findById(questionId);
             EtudiantReponse response = new EtudiantReponse(user, question, selectedOption);
             reponseService.addReponse(response);
@@ -254,7 +233,6 @@ public class QuestionsPanel extends JPanel {
     }
 
 
-    // Démarrer le compte à rebours
     private void startCountdown( User user,JPanel cardPanel) {
         timer = new Timer(1000, new ActionListener() {
             @Override
@@ -272,7 +250,7 @@ public class QuestionsPanel extends JPanel {
         timer.start();
     }
 
-    // Convertit un String HH:mm:ss en nombre total de secondes
+
     private int parseTimeToSeconds(String time) {
         String[] parts = time.split(":");
         int hours = Integer.parseInt(parts[0]);
@@ -281,7 +259,7 @@ public class QuestionsPanel extends JPanel {
         return hours * 3600 + minutes * 60 + seconds;
     }
 
-    // Formate le temps en secondes au format HH:mm:ss
+
     private String formatTime(int seconds) {
         int hours = seconds / 3600;
         int minutes = (seconds % 3600) / 60;
@@ -289,16 +267,7 @@ public class QuestionsPanel extends JPanel {
         return String.format("%02d:%02d:%02d", hours, minutes, secs);
     }
 
-    private Component getCurrentVisiblePanel(JPanel cardPanel) {
-        CardLayout cl =(CardLayout) cardPanel.getLayout();
-        // Get the current card (panel) by showing it
-        for (Component comp : cardPanel.getComponents()) {
-            if (comp.isVisible()) {
-                return comp; // Return the currently visible component
-            }
-        }
-        return null; // If no panel is visible, return null
-    }
+
 
 
 }

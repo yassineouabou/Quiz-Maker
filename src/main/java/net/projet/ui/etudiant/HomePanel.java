@@ -6,26 +6,24 @@ import net.projet.entity.User;
 import net.projet.exceptions.ResultNotFoundException;
 import net.projet.services.ExamService;
 import net.projet.services.ResultService;
-import net.projet.util.DataBaseConnection;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
 public class HomePanel extends JPanel {
-    JLabel title,text,user_name,complete_text,complete_result,moyenne_text,moyenne_result,temp_text,temp_result,resultLabel;
+    JLabel title,text,user_name,complete_text,complete_result,moyenne_text,moyenne_result,resultLabel;
     JTextField code_exam;
     JButton acceder_btn,resultBtn;
-    JPanel form_exam,complete_panel,moyenne_panel,temp_panel,result_panel;
+    JPanel form_exam,complete_panel,moyenne_panel,result_panel;
     private ExamService examService;
     private ResultService resultService;
 
-    private final Color primaryColor = new Color(79, 120, 229);
     private final Color primaryDark = new Color(2, 81, 171);
     private final Color backgroundColor = new Color(245, 247, 251);
-    private final Color textColor = new Color(55, 65, 81);
 
-    public HomePanel(JPanel cardPanel, User user,JFrame parentFrame){
+    public HomePanel(JPanel cardPanel, User user){
 
         examService = new ExamService();
         resultService = new ResultService();
@@ -137,7 +135,7 @@ public class HomePanel extends JPanel {
                 JOptionPane.showMessageDialog(this,"Déjà fait cet examen.","warning",JOptionPane.WARNING_MESSAGE);
             }
             else{
-                JPanel questionPanel = new QuestionsPanel(cardPanel,codeUnique,user,parentFrame);
+                JPanel questionPanel = new QuestionsPanel(cardPanel,codeUnique,user);
                 cardPanel.add(questionPanel,"questions");
                 CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
                 cardLayout.show(cardPanel,"questions");
