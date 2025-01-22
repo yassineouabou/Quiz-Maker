@@ -50,7 +50,7 @@ public class QuestionsPanel extends JPanel {
         }
 
         int rep= JOptionPane.showConfirmDialog(this,
-                "Le temps d'examen:"+exam.getTemps() +"\nVous ne pouvez pas sortir de cette fenêtre avant la fin de l'examen.",
+                "Le temps d'examen:"+exam.getTemps(),
                 "Avertissement",
                 JOptionPane.DEFAULT_OPTION);
 
